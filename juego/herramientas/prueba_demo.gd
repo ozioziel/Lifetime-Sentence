@@ -126,6 +126,16 @@ func _calmar_enemigos() -> void:
 		(e as Enemigo).cambiar_estado(Enemigo.Estado.GUION)
 
 
+## Mientras el nivel [param id] siga cargado, devuelve a GUION a todo enemigo que persiga.
+func _calmar_durante(id: StringName) -> void:
+	while Juego.nivel and is_instance_valid(Juego.nivel) and Juego.nivel.id == id:
+		for e in get_tree().get_nodes_in_group(&"enemigo"):
+			var en := e as Enemigo
+			if en.estado == Enemigo.Estado.PERSEGUIR or en.estado == Enemigo.Estado.ATACAR:
+				en.cambiar_estado(Enemigo.Estado.GUION)
+		await get_tree().physics_frame
+
+
 func _captura(nombre: String) -> void:
 	await get_tree().create_timer(0.3).timeout
 	await DebugTools._guardar_captura(_carpeta.path_join(nombre))
@@ -156,8 +166,11 @@ func _recorrido() -> void:
 	if not await _esperar_nivel(&"f1"):
 		return
 	await _esperar_control()
+	# Los policías arrancan un instante después de la intro (ventaja inicial) y los refuerzos
+	# salen durante el tramo: mantenerlos calmados mientras dure F1 (la dificultad real de la
+	# huida se prueba aparte con --prueba-huida).
+	_calmar_durante(&"f1")
 	await _captura("03_f1_calle")
-	_calmar_enemigos()
 	await _usar("Interactivos/SaltoCuboVolcado")
 	await _usar("Interactivos/DerribarCubo0")
 	await _zona("Zonas/Mitad")

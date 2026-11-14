@@ -10,6 +10,8 @@ const TEX_ASFALTO := ESC + "callejon_asfalto.png"
 const TEX_LADRILLO := ESC + "callejon_ladrillo.png"
 const TEX_HIERRO := ESC + "bloque_a_juego_hierro_oxidado.png"
 const SODIO := Color(1.0, 0.6, 0.27)
+## Dónde se esconde la carpeta: en mitad de la calle mayor, antes del contenedor.
+const ALCANTARILLA := Vector3(0.3, 0, -56.0)
 
 
 func construir() -> int:
@@ -83,8 +85,68 @@ func _ampliacion(g: Node3D) -> void:
 	# Farolas de sodio en la pared oeste.
 	for z in [-45.0, -61.0, -77.0]:
 		pieza(g, "Farola%d" % int(-z), "kit_ciudad", "Kit_Farola", Vector3(-3.9, 4.2, z), 90.0, 0)
-	# Rejilla de la alcantarilla (aquí se esconde la carpeta).
-	caja(g, "Alcantarilla", Vector3(2.75, 0.01, -63.2), Vector3(0.5, 0.04, 0.7), hierro, false)
+	# Rejilla de la alcantarilla (aquí se esconde la carpeta): en mitad de la calle, por donde
+	# pasa Elías corriendo, bajo su propia luz y echando vapor, para verla desde lejos.
+	caja(g, "Alcantarilla", ALCANTARILLA + Vector3(0, 0.01, 0), Vector3(0.9, 0.04, 0.9), hierro, false)
+	caja(g, "AlcantarillaHueco", ALCANTARILLA + Vector3(0, 0.0, 0), Vector3(0.7, 0.02, 0.7), negro, false)
+	_vapor(g, ALCANTARILLA)
+	# Las calles laterales del cruce están cortadas: un coche patrulla en cada una (con los
+	# tácticos delante) y un tope invisible, para que la única salida sea seguir de frente.
+	pieza(g, "CochePatrulla3", "kit_ciudad", "Kit_Coche_Patrulla", Vector3(-11.5, 0, -34.0), -90.0, 2)
+	for x in [-9.6, 9.6]:
+		caja(g, "TopeLateral%s" % ("O" if x < 0 else "E"), Vector3(x, 1.5, -34.0), Vector3(0.4, 3.0, 7.4),
+				negro, true).visible = false
+
+
+## Vapor que sale de la alcantarilla (partículas en bucle, baratas).
+func _vapor(padre: Node, pos: Vector3) -> void:
+	var p := CPUParticles3D.new()
+	agregar(padre, p, "VaporAlcantarilla")
+	p.position = pos + Vector3(0, 0.05, 0)
+	p.amount = 10
+	p.lifetime = 1.8
+	p.preprocess = 1.8
+	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	p.emission_box_extents = Vector3(0.25, 0.02, 0.25)
+	p.direction = Vector3.UP
+	p.spread = 15.0
+	p.gravity = Vector3(0, 0.15, 0)
+	p.initial_velocity_min = 0.3
+	p.initial_velocity_max = 0.55
+	p.scale_amount_min = 0.7
+	p.scale_amount_max = 1.2
+	var curva := Curve.new()
+	curva.add_point(Vector2(0.0, 0.5))
+	curva.add_point(Vector2(1.0, 1.5))
+	p.scale_amount_curve = curva
+	var rampa := Gradient.new()
+	rampa.set_color(0, Color(1, 1, 1, 0.0))
+	rampa.set_color(1, Color(1, 1, 1, 0.0))
+	rampa.add_point(0.25, Color(1, 1, 1, 0.16))
+	p.color_ramp = rampa
+	# Bocanada redonda y difusa (textura radial), no un cuadrado.
+	var radial := GradientTexture2D.new()
+	radial.fill = GradientTexture2D.FILL_RADIAL
+	radial.fill_from = Vector2(0.5, 0.5)
+	radial.fill_to = Vector2(1.0, 0.5)
+	radial.width = 32
+	radial.height = 32
+	var borde := Gradient.new()
+	borde.set_color(0, Color(1, 1, 1, 1))
+	borde.set_color(1, Color(1, 1, 1, 0))
+	radial.gradient = borde
+	var quad := QuadMesh.new()
+	quad.size = Vector2(0.6, 0.6)
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	m.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	m.vertex_color_use_as_albedo = true
+	m.albedo_color = Color(0.8, 0.76, 0.7)
+	m.albedo_texture = radial
+	m.disable_receive_shadows = true
+	quad.material = m
+	p.mesh = quad
 
 
 func _luces() -> void:
@@ -99,6 +161,12 @@ func _luces() -> void:
 	# Luces giratorias de los coches patrulla (las hace parpadear el script del nivel).
 	omni(l, "Giratorio1", Vector3(1.2, 1.8, -21.0), Color(0.15, 0.3, 1.0), 3.0, 9.0)
 	omni(l, "Giratorio2", Vector3(11.5, 1.8, -34.0), Color(1.0, 0.1, 0.08), 3.0, 9.0)
+	omni(l, "Giratorio3", Vector3(-11.5, 1.8, -34.0), Color(0.15, 0.3, 1.0), 3.0, 9.0)
+	# Bombilla sobre la alcantarilla: un cono de luz más blanca que el sodio, que se ve desde el
+	# cruce y marca dónde esconder la carpeta.
+	foco(l, "LuzAlcantarilla", ALCANTARILLA + Vector3(0, 4.6, 0.4), ALCANTARILLA, Color(1.0, 0.86, 0.62),
+			7.0, 8.0, 26.0, false)
+	omni(l, "BrilloAlcantarilla", ALCANTARILLA + Vector3(0, 0.4, 0), Color(1.0, 0.8, 0.55), 0.7, 2.5)
 	# La prisión en la colina, al fondo (M4): luz fría y lejana sobre su silueta.
 	foco(l, "LuzPrision", Vector3(0, 40, -70), Vector3(0, 60, -150), Color(0.6, 0.7, 0.9), 6.0, 160.0, 30.0, false)
 
@@ -108,6 +176,8 @@ func _camaras() -> void:
 	camara(c, "Cartel", Vector3(-1.85, 1.72, -0.71), Vector3(-2.78, 1.71, -0.71), 38.0)
 	camara(c, "Policias", Vector3(-1.2, 1.3, -2.6), Vector3(0.5, 1.4, 9.0), 50.0)
 	camara(c, "Persecucion", Vector3(2.5, 3.6, -14.0), Vector3(-0.5, 1.0, -2.0), 55.0)
+	# Último plano de la intro: por encima del hombro de Elías, calle abajo (hacia dónde huir).
+	camara(c, "Calle", Vector3(-0.9, 2.1, 2.4), Vector3(0.2, 1.1, -22.0), 50.0)
 	camara(c, "Verja", Vector3(0.6, 1.7, -88.6), Vector3(-0.1, 1.35, -84.5), 48.0)
 	camara(c, "VerjaContra", Vector3(-1.6, 1.2, -80.0), Vector3(0.0, 1.6, -86.2), 55.0)
 	camara(c, "Prision", Vector3(0.0, 1.6, -82.0), Vector3(0.0, 28.0, -150.0), 50.0)
@@ -115,9 +185,10 @@ func _camaras() -> void:
 
 func _interactivos() -> void:
 	var it := grupo(raiz, "Interactivos")
-	componente("res://componentes/interactuable.gd", it, "Alcantarilla", Vector3(2.75, 0.3, -63.2), 0.0, {
+	componente("res://componentes/interactuable.gd", it, "Alcantarilla", ALCANTARILLA + Vector3(0, 0.3, 0), 0.0, {
 		"texto": "Esconder la carpeta en la alcantarilla", "animacion": &"esconder_objeto",
-		"metodo_nivel": &"carpeta_escondida", "una_vez": true, "persistente": false, "radio": 1.5})
+		"velocidad_animacion": 1.45, "metodo_nivel": &"carpeta_escondida", "una_vez": true,
+		"persistente": false, "radio": 1.7})
 	# Obstáculos del pasado (solo se pueden usar en el pasado).
 	componente("res://componentes/obstaculo.gd", it, "SaltoCuboVolcado", Vector3(-0.37, 0.4, -6.67), 0.0, {"tipo": 0})
 	componente("res://componentes/obstaculo.gd", it, "SaltoCajas1", Vector3(-1.0, 0.5, -47.15), 0.0, {"tipo": 0})
@@ -132,6 +203,10 @@ func _interactivos() -> void:
 	zona_camara(z, "ZonaCalle", Vector3(0, 3.0, -38.0), Vector3(8.0, 6.0, 100.0), 2.4, 1.6, 0.35, 64.0, 1)
 	zona_camara(z, "ZonaCruce", Vector3(0, 3.0, -34.0), Vector3(44.0, 6.0, 8.0), 2.8, 1.7, 0.3, 66.0, 2)
 	disparador(z, "Mitad", Vector3(0, 1.5, -41.0), Vector3(8.0, 3.0, 1.0), &"punto_mitad")
+	# Pasado el cruce, los refuerzos salen de las calles laterales, por detrás de Elías.
+	disparador(z, "SalenRefuerzos", Vector3(0, 1.5, -43.5), Vector3(8.0, 3.0, 1.0), &"salen_refuerzos")
+	# Desde aquí ya se ve la alcantarilla iluminada: Elías la señala.
+	disparador(z, "VerAlcantarilla", Vector3(0, 1.5, -46.5), Vector3(8.0, 3.0, 1.0), &"ver_alcantarilla")
 	disparador(z, "Verja", Vector3(0, 1.5, -83.0), Vector3(8.0, 3.0, 2.0), &"verja")
 
 
@@ -143,15 +218,28 @@ func _entradas() -> void:
 
 func _enemigos() -> void:
 	var g := grupo(raiz, "Enemigos")
-	var props := {"tipo": 0, "estado_inicial": 0}
+	# Goma elástica de la huida: corriendo bien, Elías les saca ventaja poco a poco (unos 15 m
+	# al llegar a la alcantarilla, lo justo para esconder la carpeta); si se entretiene o
+	# choca, lo alcanzan.
+	# En la calle recta y con linternas no lo pierden de vista (si no, se rendirían y la huida
+	# sería un paseo).
+	var props := {"tipo": 0, "estado_inicial": 0, "goma_cerca": 0.9, "goma_media": 1.0, "goma_lejos": 1.12,
+		"goma_umbral_medio": 6.0, "goma_umbral_lejos": 12.0, "vision_distancia": 32.0, "memoria": 8.0}
 	enemigo("res://enemigos/policia.gd", g, "Patrullero1", Vector3(0.4, 0, 5.2), 0.0, props)
-	enemigo("res://enemigos/policia.gd", g, "Patrullero2", Vector3(-1.4, 0, 6.8), 0.0, props)
-	# Refuerzos: esperan escondidos hasta que suena el silbato.
-	enemigo("res://enemigos/policia.gd", g, "Refuerzo1", Vector3(2.4, 0, -25.5), -90.0, props)
-	enemigo("res://enemigos/policia.gd", g, "Refuerzo2", Vector3(-6.0, 0, -33.0), -90.0, props)
-	enemigo("res://enemigos/policia.gd", g, "Refuerzo3", Vector3(-2.2, 0, -58.0), 90.0, props)
-	# Tácticos: cortan las calles laterales del cruce.
+	var sin_silbato := props.duplicate()
+	sin_silbato["silba"] = false
+	enemigo("res://enemigos/policia.gd", g, "Patrullero2", Vector3(-1.4, 0, 6.8), 0.0, sin_silbato)
+	# Refuerzos: esperan ocultos al fondo de las calles laterales (fuera del camino) y el
+	# nivel los saca por DETRÁS de Elías, nunca de frente.
+	enemigo("res://enemigos/policia.gd", g, "Refuerzo1", Vector3(16.0, 0, -33.0), -90.0, sin_silbato)
+	enemigo("res://enemigos/policia.gd", g, "Refuerzo2", Vector3(-16.0, 0, -33.0), 90.0, sin_silbato)
+	enemigo("res://enemigos/policia.gd", g, "Refuerzo3", Vector3(-16.0, 0, -35.0), 90.0, sin_silbato)
+	var salidas := grupo(raiz, "SalidasRefuerzos")
+	marcador(salidas, "Refuerzo1", Vector3(5.0, 0, -33.6))
+	marcador(salidas, "Refuerzo2", Vector3(-5.0, 0, -33.2))
+	marcador(salidas, "Refuerzo3", Vector3(-2.0, 0, -48.5))
+	# Tácticos: cortan las calles laterales del cruce delante de los coches. Solo vigilan.
 	for t in [["TacticoE1", Vector3(8.0, 0, -32.6)], ["TacticoE2", Vector3(8.4, 0, -35.4)],
 			["TacticoO1", Vector3(-8.0, 0, -32.8)], ["TacticoO2", Vector3(-8.3, 0, -35.2)]]:
 		var rot := 90.0 if t[1].x > 0 else -90.0
-		enemigo("res://enemigos/policia.gd", g, t[0], t[1], rot, {"tipo": 1, "estado_inicial": 1, "silba": true})
+		enemigo("res://enemigos/policia.gd", g, t[0], t[1], rot, {"tipo": 1, "estado_inicial": 1, "silba": false})

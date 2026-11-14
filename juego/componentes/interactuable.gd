@@ -31,6 +31,8 @@ enum Epoca { CUALQUIERA, PRESENTE, PASADO }
 @export var epoca: Epoca = Epoca.CUALQUIERA
 ## Animación del jugador al usarlo (recoger, empujar, palanca...). Vacío = ninguna.
 @export var animacion: StringName = &""
+## Velocidad de esa animación (1 = normal; más alto = más rápida).
+@export_range(0.25, 3.0) var velocidad_animacion := 1.0
 ## Sonido al usarlo (nombre en assets/audio).
 @export var sonido: StringName = &""
 ## Función del script del nivel que se llama al usarlo (recibe este nodo).
@@ -120,7 +122,7 @@ func usar(jugador: Jugador) -> void:
 			_en_uso = false
 			return
 	if animacion != &"":
-		await jugador.accion(animacion)
+		await jugador.accion(animacion, velocidad_animacion)
 	if sonido != &"":
 		Audio.efecto_3d(sonido, global_position, 0.0, 15.0)
 	if comentario != "":

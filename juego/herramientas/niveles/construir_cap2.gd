@@ -17,6 +17,10 @@ const TEX_PAPEL := ESC + "comisaria_papeles.png"
 const Y10 := 32.0
 const XO := -12.2
 const ASCENSOR := Vector3(8.6, 0, 33.0)
+## Escalera de servicio: puerta al final de la pasarela oeste de la planta 10 y caseta en la
+## esquina noroeste del patio de la planta baja (centro de la puerta, a ras de suelo).
+const PUERTA_P10 := Vector3(-12.2, Y10, -36.76)
+const CASETA_PB := Vector3(-9.9, 0, -34.95)
 
 
 func construir() -> int:
@@ -29,6 +33,7 @@ func construir() -> int:
 	navegable(deco)
 	_ascensor(deco)
 	_decorado(deco)
+	_escalera_servicio(deco)
 	navegacion("NavPlanta10", AABB(Vector3(-14.5, Y10 - 1.0, -39.0), Vector3(29.0, 3.5, 78.0)))
 	navegacion("NavPlantaBaja", AABB(Vector3(-14.5, -1.0, -39.0), Vector3(29.0, 3.0, 78.0)))
 	hornear()
@@ -108,6 +113,40 @@ func _decorado(deco: Node3D) -> void:
 		caja(deco, "FusibleVisible_%d" % int(f.z), f, Vector3(0.08, 0.08, 0.16), material("", Color(0.85, 0.82, 0.72)), false)
 
 
+## Escalera de servicio entre la planta 10 y la planta baja. En el escenario de Blender la
+## pasarela oeste termina contra el muro norte, así que la salida es una puerta de servicio
+## bien visible justo al final (con cartel y bombilla cálida, que destaca sobre el azul), y
+## abajo, una caseta de escalera en la esquina noroeste del patio con la misma puerta.
+func _escalera_servicio(deco: Node3D) -> void:
+	var hormigon := material(ESC + "patio_central_hormigon_muro.png", Color(0.85, 0.85, 0.85), 1.0)
+	# Arriba: puerta al final de la pasarela oeste (muro norte, cara en z = -36,81).
+	_puerta_servicio(deco, "PuertaServicioP10", PUERTA_P10, "ESCALERA DE SERVICIO\nA PLANTA BAJA")
+	# Abajo: caseta de hormigón con la puerta mirando al patio.
+	var c := CASETA_PB
+	caja(deco, "CasetaEscalera", c + Vector3(0, 1.4, -0.6), Vector3(1.7, 2.8, 1.2), hormigon)
+	caja(deco, "CasetaTecho", c + Vector3(0, 2.84, -0.6), Vector3(1.85, 0.08, 1.35), hormigon, false)
+	_puerta_servicio(deco, "PuertaServicioPB", c + Vector3(0, 0, 0.03), "ESCALERA DE SERVICIO\nPLANTA 10")
+
+
+## Puerta metálica de servicio mirando a +Z, con su marco, cartel y bombilla enjaulada.
+## [param base] = centro de la puerta a ras de suelo, sobre la cara del muro.
+func _puerta_servicio(padre: Node3D, nombre: String, base: Vector3, texto: String) -> void:
+	var g := grupo(padre, nombre)
+	g.position = base
+	var marco := material(TEX_HIERRO, Color(0.55, 0.55, 0.55), 1.0)
+	var hoja := material(TEX_METAL, Color(0.42, 0.55, 0.45), 1.0)
+	caja(g, "JambaO", Vector3(-0.53, 1.08, 0.04), Vector3(0.1, 2.16, 0.1), marco, false)
+	caja(g, "JambaE", Vector3(0.53, 1.08, 0.04), Vector3(0.1, 2.16, 0.1), marco, false)
+	caja(g, "Dintel", Vector3(0, 2.2, 0.04), Vector3(1.16, 0.1, 0.1), marco, false)
+	caja(g, "Hoja", Vector3(0, 1.04, 0.03), Vector3(0.96, 2.06, 0.05), hoja, false)
+	caja(g, "Mirilla", Vector3(0, 1.62, 0.06), Vector3(0.3, 0.2, 0.02), material("", Color(0.02, 0.02, 0.025)), false)
+	caja(g, "Tirador", Vector3(0.36, 1.0, 0.08), Vector3(0.04, 0.22, 0.05), marco, false)
+	rotulo(g, "Cartel", texto, Vector3(0, 2.5, 0.06), 0.0, 0.1, Color(0.92, 0.86, 0.62))
+	# Bombilla enjaulada sobre la puerta (la luz la pone _luces()).
+	caja(g, "Bombilla", Vector3(0, 2.86, 0.12), Vector3(0.12, 0.12, 0.12), material("", Color(1.0, 0.85, 0.55), 0.5, true, Color(1.0, 0.8, 0.5), 3.0), false)
+	caja(g, "Jaula", Vector3(0, 2.86, 0.12), Vector3(0.18, 0.18, 0.18), marco, false)
+
+
 func _luces() -> void:
 	var l := grupo(raiz, "Luces")
 	# Luna a través del tragaluz: haces fríos desde arriba (con niebla volumétrica en ALTO).
@@ -139,7 +178,9 @@ func _luces() -> void:
 		omni(l, "Emergencia_%d" % int(p.z), p, Color(0.78, 0.12, 0.07), 2.0, 12.0)
 	omni(l, "Flexo", Vector3(0.2, 1.4, -8.0), Color(1.0, 0.8, 0.5), 1.4, 4.0)
 	omni(l, "LuzAscensor", ASCENSOR + Vector3(0, 2.5, 0), Color(0.9, 0.85, 0.6), 0.35, 6.0)
-	omni(l, "LuzServicio", Vector3(-9.6, 2.6, -36.0), Color(0.65, 0.72, 0.75), 1.2, 6.0)
+	# Bombillas cálidas de la escalera de servicio: se ven desde lejos sobre el azul.
+	omni(l, "LuzServicioP10", PUERTA_P10 + Vector3(0, 2.7, 0.45), Color(1.0, 0.78, 0.5), 2.2, 7.0)
+	omni(l, "LuzServicio", CASETA_PB + Vector3(0, 2.7, 0.5), Color(1.0, 0.78, 0.5), 2.0, 7.0)
 	for x in [-8.0, 0.0, 8.0]:
 		luz_alarma(l, "Alarma%d" % int(x), Vector3(x, Y10 + 3.0, 0.0), 14.0)
 
@@ -204,14 +245,16 @@ func _interactivos() -> void:
 	componente("res://componentes/interactuable.gd", it, "Fusible1", Vector3(XO + 0.4, Y10 + 0.2, 3.4), 0.0, {
 		"texto": "Coger el fusible", "animacion": &"recoger", "metodo_nivel": &"coger_fusible", "una_vez": true})
 	componente("res://componentes/pared_marcas.gd", it, "ParedP10", Vector3(-12.85, Y10 + 1.2, -28.0), 0.0, {"punto": &"pared_p10"})
-	componente("res://componentes/puerta_transicion.gd", it, "EscaleraBajar", Vector3(-9.6, Y10 + 1.0, -37.2), 0.0, {
+	componente("res://componentes/puerta_transicion.gd", it, "EscaleraBajar", PUERTA_P10 + Vector3(0, 1.0, 0.45), 0.0, {
 		"destino": NodePath("../../Entradas/Entrada_planta_baja"), "texto": "Bajar por la escalera de servicio",
 		"sonido_puerta": &"escalera_servicio", "espera_en_negro": 1.6})
-	componente("res://componentes/puerta_transicion.gd", it, "EscaleraSubir", Vector3(-9.6, 1.0, -37.2), 0.0, {
+	componente("res://componentes/puerta_transicion.gd", it, "EscaleraSubir", CASETA_PB + Vector3(0, 1.0, 0.45), 0.0, {
 		"destino": NodePath("../../Entradas/Entrada_volver_p10"), "texto": "Subir por la escalera de servicio",
 		"sonido_puerta": &"escalera_servicio", "espera_en_negro": 1.6})
-	componente("res://componentes/pared_marcas.gd", it, "ParedPB", Vector3(-12.85, 1.2, -30.0), 0.0, {"punto": &"pared_planta_baja"})
-	componente("res://componentes/documento.gd", it, "EscritoPared", Vector3(-12.6, 1.2, 12.0), 0.0, {
+	# Pared para guardar en la planta baja: el costado este de la caseta de la escalera.
+	componente("res://componentes/pared_marcas.gd", it, "ParedPB", CASETA_PB + Vector3(0.95, 1.2, -0.6), 0.0, {"punto": &"pared_planta_baja"})
+	# Se lee desde el patio, a través de la barandilla de la galería de la planta baja.
+	componente("res://componentes/documento.gd", it, "EscritoPared", Vector3(-11.0, 1.2, 12.0), 0.0, {
 		"id_documento": &"pared_aislados", "texto": "Leer lo escrito en la pared"})
 	componente("res://componentes/interactuable.gd", it, "Fusible2", Vector3(0.3, 0.85, -8.1), 0.0, {
 		"texto": "Coger el fusible", "animacion": &"recoger", "metodo_nivel": &"coger_fusible", "una_vez": true})
@@ -232,16 +275,16 @@ func _interactivos() -> void:
 	zona_camara(z, "ZonaPasarelaN", Vector3(0, Y10 + 1.5, -37.6), Vector3(29.0, 3.2, 3.2), 2.2, 1.6, 0.4, 64.0, 1)
 	zona_camara(z, "ZonaPlantaBaja", Vector3(0, 1.5, 0), Vector3(26.0, 3.0, 76.0), 2.8, 1.7, 0.35, 66.0, 1)
 	disparador(z, "VerColgados", Vector3(XO, Y10 + 1.2, -10.0), Vector3(3.0, 2.4, 1.5), &"ver_colgados", true)
-	disparador(z, "LlegarAbajo", Vector3(-9.6, 1.2, -33.0), Vector3(3.0, 2.4, 2.0), &"llegar_abajo", true)
+	disparador(z, "LlegarAbajo", CASETA_PB + Vector3(0, 1.2, 1.4), Vector3(3.0, 2.4, 2.0), &"llegar_abajo", true)
 
 
 func _entradas() -> void:
 	var e := grupo(raiz, "Entradas")
 	punto_entrada(e, &"inicio", Vector3(XO, Y10, 34.0), 0.0)
 	punto_entrada(e, &"pared_p10", Vector3(XO, Y10, -27.0), 0.0)
-	punto_entrada(e, &"planta_baja", Vector3(-9.6, 0.0, -35.0), 180.0)
-	punto_entrada(e, &"pared_planta_baja", Vector3(-12.0, 0.0, -29.0), 180.0)
-	punto_entrada(e, &"volver_p10", Vector3(-9.6, Y10, -36.0), 90.0)
+	punto_entrada(e, &"planta_baja", CASETA_PB + Vector3(0, 0, 1.0), 180.0)
+	punto_entrada(e, &"pared_planta_baja", CASETA_PB + Vector3(1.6, 0, 0.2), 180.0)
+	punto_entrada(e, &"volver_p10", PUERTA_P10 + Vector3(0, 0, 1.2), 180.0)
 
 
 func _enemigos() -> void:

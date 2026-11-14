@@ -52,6 +52,16 @@ func _ready() -> void:
 			prueba_demo.set_script(load("res://herramientas/prueba_demo.gd"))
 			add_child(prueba_demo)
 			prueba_demo.call_deferred(&"iniciar", argumento.trim_prefix("--prueba-demo="))
+		if argumento.begins_with("--prueba-camino="):
+			var prueba_camino := Node.new()
+			prueba_camino.set_script(load("res://herramientas/prueba_camino.gd"))
+			add_child(prueba_camino)
+			prueba_camino.call_deferred(&"iniciar", argumento.trim_prefix("--prueba-camino="))
+		if argumento.begins_with("--prueba-huida="):
+			var prueba_huida := Node.new()
+			prueba_huida.set_script(load("res://herramientas/prueba_huida.gd"))
+			add_child(prueba_huida)
+			prueba_huida.call_deferred(&"iniciar", argumento.trim_prefix("--prueba-huida="))
 		if argumento.begins_with("--capturas-tiempo="):
 			_capturas_por_tiempo.call_deferred(argumento.trim_prefix("--capturas-tiempo="))
 		if argumento.begins_with("--nivel="):

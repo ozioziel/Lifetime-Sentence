@@ -16,6 +16,12 @@ const F1_INICIO := [
 	["Radio", "Central a unidades: varón, chaqueta oscura, lleva una carpeta. Prioridad uno.", 4.0],
 ]
 const F1_SILBATO := ["Policía", "¡Está aquí! ¡Refuerzos!", 2.0]
+## Los refuerzos salen de las calles del cruce, por detrás de Elías.
+const F1_REFUERZOS := ["Policía", "¡Por la calle mayor! ¡Que no se escape!", 2.4]
+## Elías ve la alcantarilla (el sitio donde esconder la carpeta).
+const F1_ALCANTARILLA := ["", "(La alcantarilla. Ahí no la buscarán.)", 2.6]
+## El último refuerzo sale de un portal cuando la carpeta ya no está.
+const F1_ULTIMO := ["Policía", "¡Ahí va! ¡Hacia la verja!", 2.0]
 const F1_ESCONDIDA := [
 	["", "(Ya no la tienes encima. Que la busquen.)", 3.0],
 ]

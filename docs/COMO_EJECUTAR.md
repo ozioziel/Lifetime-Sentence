@@ -45,6 +45,8 @@ LifetimeSentence.exe -- --calidad=alto --pantalla-completa
 | `--recorrido=C:/carpeta [--niveles=cap1,f1]` | Carga cada nivel y guarda capturas desde el jugador y desde cada cámara de cinemática |
 | `--capturas-tiempo=C:/carpeta\|5,20` | Guarda capturas a esos segundos (con los fps en la consola) y cierra |
 | `--prueba-demo=C:/carpeta` | Prueba automática de la demo completa (solo desde el proyecto, no desde el `.exe`) |
+| `--nivel=cap2 "--prueba-camino=C:/carpeta|Interactivos/A|Interactivos/B"` | Un bot va **andando** hasta cada objeto de la lista y lo usa como un jugador: comprueba que todo es alcanzable. Solo desde el proyecto |
+| `--nivel=f1 --prueba-huida=C:/carpeta\|modo` | Un bot juega la persecución de F1 y dice si escapa y con cuánto margen. Modos: `normal`, `obstaculos`, `duda_1` (se para 1 s en el cruce). Solo desde el proyecto |
 | `--desarrollo` | Activa las teclas de desarrollo en el `.exe`: F1 información, F2 época, F3 calidad, F4 efectos PS1 |
 
 ## Partidas guardadas y ajustes

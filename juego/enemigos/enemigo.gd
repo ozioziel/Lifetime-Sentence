@@ -112,12 +112,15 @@ func _ready() -> void:
 	if estado_inicial == Estado.INACTIVO:
 		visible = false
 		process_mode = Node.PROCESS_MODE_DISABLED
+		# Mientras espera oculto no estorba: sin colisión (si no, es una pared invisible).
+		(get_node(^"Colision") as CollisionShape3D).set_deferred(&"disabled", true)
 
 
 ## Activa un enemigo que estaba esperando (aparición guionizada).
 func activar(nuevo_estado: Estado = Estado.PATRULLA) -> void:
 	visible = true
 	process_mode = Node.PROCESS_MODE_INHERIT
+	(get_node(^"Colision") as CollisionShape3D).set_deferred(&"disabled", false)
 	cambiar_estado(nuevo_estado)
 
 

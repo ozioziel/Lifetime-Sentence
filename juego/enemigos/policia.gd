@@ -16,6 +16,16 @@ enum Tipo { PATRULLERO, TACTICO, GUARDIA }
 ## Lleva una linterna encendida (en la lluvia del pasado se ven los haces).
 @export var linterna := true
 
+@export_group("Goma elástica")
+## Multiplicadores de la velocidad de carrera según lo lejos que esté Elías (corre a 5,4 m/s).
+## Por debajo de 1 afloja; por encima, recorta distancia.
+@export var goma_cerca := 0.93
+@export var goma_media := 1.04
+@export var goma_lejos := 1.2
+## Metros que separan «cerca», «media» y «lejos».
+@export var goma_umbral_medio := 7.0
+@export var goma_umbral_lejos := 14.0
+
 var _silbo := false
 var _frenado := 0.0
 var _obstaculos_pasados: Array[Node] = []
@@ -96,11 +106,11 @@ func velocidad_persecucion() -> float:
 		return velocidad_correr
 	# Goma elástica: lejos acelera, cerca afloja (Elías corre a 5,4 m/s).
 	var d := global_position.distance_to(jugador.global_position)
-	if d > 14.0:
-		return velocidad_correr * 1.2
-	if d > 7.0:
-		return velocidad_correr * 1.04
-	return velocidad_correr * 0.93
+	if d > goma_umbral_lejos:
+		return velocidad_correr * goma_lejos
+	if d > goma_umbral_medio:
+		return velocidad_correr * goma_media
+	return velocidad_correr * goma_cerca
 
 
 func _estado_perseguir(delta: float) -> void:

@@ -46,7 +46,7 @@ Cómo está hecho el juego y cómo modificarlo. Casi todo lo habitual (textos, l
 
 ### 3.2. Añadir un objeto con el que interactuar
 
-Añade un `Node3D` al nivel y ponle uno de estos scripts de `juego/componentes/`. Todos tienen en el Inspector `Texto` (el verbo del aviso), `Radio`, `Animacion` (de Elías), `Sonido`, `Comentario`, `Una Vez`, `Metodo Nivel` (función del script del nivel a la que llamar) y una **Cerradura** opcional: ganzúa, objeto clave, código o bloqueada.
+Añade un `Node3D` al nivel y ponle uno de estos scripts de `juego/componentes/`. Todos tienen en el Inspector `Texto` (el verbo del aviso), `Radio`, `Animacion` (de Elías) y su `Velocidad Animacion`, `Sonido`, `Comentario`, `Una Vez`, `Metodo Nivel` (función del script del nivel a la que llamar) y una **Cerradura** opcional: ganzúa, objeto clave, código o bloqueada.
 
 | Script | Para qué |
 |---|---|
@@ -68,7 +68,7 @@ Selecciona el enemigo en el nivel (carpeta `Enemigos`) y cambia en el Inspector:
 
 - **El Uniforme**: intervalo y duración del Recuento, umbral de movimiento.
 - **El Vigilante**: tolerancia (segundos en el haz), alcance, apertura y barrido del foco, punto de mira.
-- **Policía**: tipo (patrullero, táctico, guardia), silbato y linterna.
+- **Policía**: tipo (patrullero, táctico, guardia), silbato, linterna y **goma elástica** (multiplicadores de velocidad cerca, a media distancia y lejos de Elías, que corre a 5,4 m/s). La huida de F1 se ajusta aquí y en `ventaja_inicial` (nodo raíz del nivel).
 - **Los Aislados**: tacto (distancia a la que notan al jugador) y contagio (avisan a los demás).
 - **La Sentencia**: duración de la furia.
 
@@ -108,6 +108,8 @@ Las cámaras de cada nivel están en su nodo `Camaras`. Se pueden mover en el ed
 | Configuración del proyecto, controles y autoloads | `Godot --headless --path juego --script res://herramientas/configurar_proyecto.gd` |
 | Comprobar que todos los scripts compilan | `Godot --headless --path juego --script res://herramientas/comprobar_scripts.gd` |
 | Prueba automática de la demo entera | `Godot --path juego -- --prueba-demo=C:/carpeta` (deja `prueba.txt` y capturas) |
+| Que un nivel se pueda recorrer a pie | `Godot --path juego -- --nivel=cap2 "--prueba-camino=C:/carpeta|Interactivos/Fusible1|Interactivos/EscaleraBajar"` (deja `camino.txt` y capturas). La prueba de la demo teletransporta y no detecta sitios inalcanzables |
+| Dificultad de la huida de F1 | `Godot --path juego -- --nivel=f1 "--prueba-huida=C:/carpeta|normal"` (deja `huida_normal.txt` con el margen y capturas) |
 
 **Atención**: los constructores de niveles **sobrescriben** el `.tscn`. Si se retoca un nivel a mano en el editor, ya no hay que regenerarlo, o hay que llevar los cambios también a su constructor (`juego/herramientas/niveles/construir_<id>.gd`).
 

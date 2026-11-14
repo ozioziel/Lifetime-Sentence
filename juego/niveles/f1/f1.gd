@@ -3,11 +3,22 @@ extends Nivel
 ## Si lo detienen antes de esconderla → escena de consecuencia → CONTINUAR desde el punto
 ## de control del recuerdo (G6). Con la carpeta escondida, la verja lo acorrala (N3) y el
 ## golpe metálico lo devuelve al presente (D6).
+##
+## Diseño de la persecución (para que se entienda a la primera y sea justa):
+##   - Una sola dirección: calle abajo. La intro termina mirando hacia allí y las calles
+##     laterales del cruce están cortadas por coches patrulla y tácticos.
+##   - Los perseguidores siempre vienen por DETRÁS. Los refuerzos salen de las calles del
+##     cruce cuando Elías ya ha pasado, y el último, de un portal, con la carpeta escondida.
+##   - La alcantarilla está en mitad de la calle, iluminada y echando vapor; Elías la señala.
+##   - Goma elástica (Policía): corriendo bien se gana la ventaja justa para esconder la
+##     carpeta; chocar o pararse se paga.
+
+## Segundos que tardan los policías en arrancar después de la intro (ventaja inicial).
+@export var ventaja_inicial := 0.6
 
 @onready var _patrulleros: Array[Node] = [$Enemigos/Patrullero1, $Enemigos/Patrullero2]
 @onready var _refuerzos: Array[Node] = [$Enemigos/Refuerzo1, $Enemigos/Refuerzo2, $Enemigos/Refuerzo3]
-@onready var _giratorio1: OmniLight3D = $Luces/Giratorio1
-@onready var _giratorio2: OmniLight3D = $Luces/Giratorio2
+@onready var _giratorios: Array[Node] = [$Luces/Giratorio1, $Luces/Giratorio2, $Luces/Giratorio3]
 
 var _t := 0.0
 var _terminado := false
@@ -17,8 +28,8 @@ func _process(delta: float) -> void:
 	super(delta)
 	# Luces giratorias de los coches patrulla.
 	_t += delta
-	_giratorio1.light_energy = 3.5 * maxf(sin(_t * 9.0), 0.0)
-	_giratorio2.light_energy = 3.5 * maxf(sin(_t * 9.0 + PI), 0.0)
+	for i in _giratorios.size():
+		(_giratorios[i] as OmniLight3D).light_energy = 3.5 * maxf(sin(_t * 9.0 + PI * i), 0.0)
 
 
 func al_entrar(punto: StringName) -> void:
@@ -38,41 +49,70 @@ func _inicio() -> void:
 	await decir(Guion.F1_INICIO[0][0], Guion.F1_INICIO[0][1], 1.2)
 	jugador.modelo().reproducir(&"mirar_atras", 0.1)
 	plano($Camaras/Policias)
-	for p in _patrulleros:
-		(p as Enemigo).activar(Enemigo.Estado.QUIETO)
-	await espera(1.6)
-	terminar_cinematica(0.3)
+	# Durante la intro los policías se quedan donde están (si persiguieran ya, al recuperar
+	# el control lo tendrían encima).
 	for p in _patrulleros:
 		var e := p as Enemigo
-		e.ultima_posicion = jugador.global_position
-		e.cambiar_estado(Enemigo.Estado.PERSEGUIR)
+		e.activar(Enemigo.Estado.GUION)
+		e.mirar_a(jugador.global_position)
+	await espera(1.4)
+	# Último plano: Elías se gira y mira calle abajo. Por ahí se huye.
+	jugador.modelo().rotation.y = 0.0
+	jugador.modelo().reproducir(&"quieto", 0.15)
+	plano($Camaras/Calle)
+	await espera(1.1)
+	terminar_cinematica(0.3)
+	jugador.teletransportar(jugador.global_position, 0.0)
+	Interfaz.objetivo("Huye calle abajo. Esconde la carpeta antes de que te atrapen.", 8.0)
+	await get_tree().create_timer(ventaja_inicial, false).timeout
+	for p in _patrulleros:
+		_perseguir(p as Enemigo)
 	Interfaz.subtitulo(Guion.F1_INICIO[1][1], Guion.F1_INICIO[1][2], Guion.F1_INICIO[1][0])
-	Interfaz.objetivo("Huye. Esconde la carpeta antes de que te atrapen.", 8.0)
 
 
 func _desde_la_mitad() -> void:
-	# Al reintentar desde la mitad, los perseguidores vienen ya detrás.
-	var detras := [Vector3(0.6, 0, -27.0), Vector3(-1.2, 0, -24.5)]
+	# Al reintentar desde la mitad, los perseguidores vienen ya detrás (a unos 15 m).
+	var detras := [Vector3(0.6, 0, -27.0), Vector3(-1.2, 0, -25.0)]
 	for i in _patrulleros.size():
 		var e := _patrulleros[i] as Enemigo
 		e.global_position = detras[i]
-		e.activar(Enemigo.Estado.PERSEGUIR)
-		e.ultima_posicion = jugador.global_position
-	Interfaz.objetivo("Esconde la carpeta antes de que te atrapen.", 6.0)
+		_perseguir(e)
+	jugador.teletransportar(jugador.global_position, 0.0)
+	Interfaz.objetivo("Sigue calle abajo. Esconde la carpeta antes de que te atrapen.", 6.0)
 
 
-## Silbato: llega un refuerzo por delante (el primero que esté al menos 10 m por delante).
-func refuerzos(_desde: Vector3) -> void:
-	for r in _refuerzos:
-		var e := r as Enemigo
-		if e.estado != Enemigo.Estado.INACTIVO:
-			continue
-		if e.global_position.z < jugador.global_position.z - 10.0:
-			await get_tree().create_timer(1.2, false).timeout
-			e.activar(Enemigo.Estado.PERSEGUIR)
-			e.ultima_posicion = jugador.global_position
-			Audio.efecto_3d(&"silbato", e.global_position, 2.0, 50.0, 1.1)
-			return
+func _perseguir(e: Enemigo) -> void:
+	if jugador == null or jugador.muerto:
+		return
+	e.activar(Enemigo.Estado.PERSEGUIR)
+	e.ultima_posicion = jugador.global_position
+
+
+## Saca un refuerzo por detrás de Elías (en su punto de salida) con silbato.
+func _sacar_refuerzo(indice: int) -> void:
+	var e := _refuerzos[indice] as Enemigo
+	if e.estado != Enemigo.Estado.INACTIVO or jugador.muerto:
+		return
+	var salida := get_node(NodePath("SalidasRefuerzos/Refuerzo%d" % (indice + 1))) as Node3D
+	e.global_position = salida.global_position
+	e.reset_physics_interpolation()
+	e.mirar_a(jugador.global_position)
+	_perseguir(e)
+	Audio.efecto_3d(&"silbato", salida.global_position, 2.0, 50.0, 1.1)
+
+
+## Pasado el cruce: dos agentes salen de las calles laterales, detrás de Elías.
+func salen_refuerzos(_z: Node) -> void:
+	_sacar_refuerzo(0)
+	Interfaz.subtitulo(Guion.F1_REFUERZOS[1], Guion.F1_REFUERZOS[2], Guion.F1_REFUERZOS[0])
+	await get_tree().create_timer(0.7, false).timeout
+	_sacar_refuerzo(1)
+
+
+## La alcantarilla iluminada ya está a la vista.
+func ver_alcantarilla(_z: Node) -> void:
+	if not Juego.bandera(&"carpeta_escondida"):
+		Interfaz.subtitulo(Guion.F1_ALCANTARILLA[1], Guion.F1_ALCANTARILLA[2])
 
 
 func punto_mitad(_z: Node) -> void:
@@ -84,6 +124,10 @@ func carpeta_escondida(_n: Node) -> void:
 	Audio.efecto(&"carpeta", -2.0)
 	Interfaz.subtitulo(Guion.F1_ESCONDIDA[0][1], Guion.F1_ESCONDIDA[0][2])
 	Interfaz.objetivo("Corre.", 4.0)
+	# El último agente sale de un portal, por detrás, y lo empuja hacia la verja.
+	await get_tree().create_timer(1.2, false).timeout
+	_sacar_refuerzo(2)
+	Interfaz.subtitulo(Guion.F1_ULTIMO[1], Guion.F1_ULTIMO[2], Guion.F1_ULTIMO[0])
 
 
 func verja(_z: Node) -> void:
