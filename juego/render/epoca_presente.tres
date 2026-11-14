@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PerfilEpoca" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://render/perfil_epoca.gd" id="1_perfil"]
+
+[resource]
+script = ExtResource("1_perfil")
+nombre = "presente"
+tinte_sombras = Color(0.41, 0.5, 0.57, 1)
+tinte_luces = Color(0.47, 0.52, 0.51, 1)
+saturacion = 0.82
+contraste = 1.08
+brillo = 0.0
+niveles_color = 31.0
+fuerza_dither = 1.0
+grano = 0.05
+vineta = 0.42

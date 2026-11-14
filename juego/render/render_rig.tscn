@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://render/render_rig.gd" id="1_rig"]
+[ext_resource type="Shader" path="res://render/escalado_nitido.gdshader" id="2_escalado"]
+[ext_resource type="Shader" path="res://render/ps1_post.gdshader" id="3_post"]
+[ext_resource type="Resource" path="res://render/epoca_presente.tres" id="4_presente"]
+[ext_resource type="Resource" path="res://render/epoca_pasado.tres" id="5_pasado"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_escalado"]
+shader = ExtResource("2_escalado")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_post"]
+shader = ExtResource("3_post")
+
+[node name="RenderRig" type="Node"]
+process_mode = 3
+process_priority = 1000
+script = ExtResource("1_rig")
+epoca_presente = ExtResource("4_presente")
+epoca_pasado = ExtResource("5_pasado")
+
+[node name="CapaJuego" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="Fondo" type="ColorRect" parent="CapaJuego"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Pantalla" type="TextureRect" parent="CapaJuego"]
+texture_filter = 2
+material = SubResource("ShaderMaterial_escalado")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VistaJuego" type="SubViewport" parent="."]
+audio_listener_enable_3d = true
+size = Vector2i(480, 270)
+render_target_update_mode = 4
+
+[node name="Camara" type="Camera3D" parent="VistaJuego"]
+physics_interpolation_mode = 2
+current = true
+near = 0.05
+far = 200.0
+
+[node name="PostFX" type="CanvasLayer" parent="VistaJuego"]
+
+[node name="Filtro" type="ColorRect" parent="VistaJuego/PostFX"]
+material = SubResource("ShaderMaterial_post")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
