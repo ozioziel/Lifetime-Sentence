@@ -1,0 +1,774 @@
+{
+  "fps": 30,
+  "nota": "Animaciones en el sitio (Godot mueve el cuerpo). 'velocidad' = m/s para la que se diseñó el ciclo: si el personaje va a otra velocidad, escalar la velocidad de reproducción. 'desplazamiento' = metros que avanza la cadera (pasar_por_encima). 'pareja' = animación sincronizada del otro personaje y 'distancia' = metros entre ambos, cara a cara.",
+  "personajes": {
+    "elias_preso": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "mirar_atras",
+        "fotogramas": 54,
+        "segundos": 1.8,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "ganzua_loop",
+        "fotogramas": 60,
+        "segundos": 2.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "empujar",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "leer_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "recoger",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 26,
+        "segundos": 0.867,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.55
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 20,
+        "segundos": 0.667,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 3.5
+      },
+      {
+        "nombre": "agachado_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "agachado_andar_loop",
+        "fotogramas": 33,
+        "segundos": 1.1,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 0.95
+      },
+      {
+        "nombre": "levantarse",
+        "fotogramas": 84,
+        "segundos": 2.8,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "lanzar",
+        "fotogramas": 33,
+        "segundos": 1.1,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "esconderse",
+        "fotogramas": 21,
+        "segundos": 0.7,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "taquilla_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "congelarse_loop",
+        "fotogramas": 60,
+        "segundos": 2.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "marcar_pared",
+        "fotogramas": 72,
+        "segundos": 2.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "palanca",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "volante_loop",
+        "fotogramas": 72,
+        "segundos": 2.4,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "punzon_clavar",
+        "fotogramas": 24,
+        "segundos": 0.8,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "pistola_apuntar_loop",
+        "fotogramas": 60,
+        "segundos": 2.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "pistola_disparar",
+        "fotogramas": 15,
+        "segundos": 0.5,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "escopeta_apuntar_loop",
+        "fotogramas": 60,
+        "segundos": 2.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "escopeta_disparar",
+        "fotogramas": 27,
+        "segundos": 0.9,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "cegado",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "muerte_cuello",
+        "fotogramas": 72,
+        "segundos": 2.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "el_uniforme/agarrar",
+        "distancia": 0.6
+      },
+      {
+        "nombre": "muerte_placaje",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "policia_patrullero/placaje",
+        "distancia": 1.3
+      },
+      {
+        "nombre": "muerte_arrastrado",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "aislado_a/atacar",
+        "distancia": 0.7
+      },
+      {
+        "nombre": "muerte_golpe",
+        "fotogramas": 39,
+        "segundos": 1.3,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "la_sentencia/golpe_vertical",
+        "distancia": 1.6
+      }
+    ],
+    "elias_civil": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "mirar_atras",
+        "fotogramas": 54,
+        "segundos": 1.8,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "ganzua_loop",
+        "fotogramas": 60,
+        "segundos": 2.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "empujar",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "leer_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "recoger",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 19,
+        "segundos": 0.633,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 2.3
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 18,
+        "segundos": 0.6,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 5.4
+      },
+      {
+        "nombre": "correr_mirando_atras_loop",
+        "fotogramas": 18,
+        "segundos": 0.6,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 5.4
+      },
+      {
+        "nombre": "derribar",
+        "fotogramas": 30,
+        "segundos": 1.0,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "pasar_por_encima",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "desplazamiento": 1.6
+      },
+      {
+        "nombre": "sentado_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "esconder_objeto",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "muerte_placaje",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "policia_patrullero/placaje",
+        "distancia": 1.3
+      }
+    ],
+    "el_uniforme": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 39,
+        "segundos": 1.3,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 1.0
+      },
+      {
+        "nombre": "recuento_loop",
+        "fotogramas": 120,
+        "segundos": 4.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "perseguir_loop",
+        "fotogramas": 24,
+        "segundos": 0.8,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 2.4
+      },
+      {
+        "nombre": "agarrar",
+        "fotogramas": 72,
+        "segundos": 2.4,
+        "bucle": false,
+        "a_pocos_fotogramas": true,
+        "pareja": "elias_preso/muerte_cuello",
+        "distancia": 0.6
+      },
+      {
+        "nombre": "aturdido",
+        "fotogramas": 105,
+        "segundos": 3.5,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "el_vigilante": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 120,
+        "segundos": 4.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 51,
+        "segundos": 1.7,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 0.9
+      },
+      {
+        "nombre": "alerta",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "aturdido",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "el_condenado": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "acechar_loop",
+        "fotogramas": 36,
+        "segundos": 1.2,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 1.1
+      },
+      {
+        "nombre": "atacar",
+        "fotogramas": 30,
+        "segundos": 1.0,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "la_sentencia": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 105,
+        "segundos": 3.5,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 51,
+        "segundos": 1.7,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 0.8
+      },
+      {
+        "nombre": "golpe_vertical",
+        "fotogramas": 66,
+        "segundos": 2.2,
+        "bucle": false,
+        "a_pocos_fotogramas": true,
+        "pareja": "elias_preso/muerte_golpe",
+        "distancia": 1.6
+      },
+      {
+        "nombre": "golpe_barrido",
+        "fotogramas": 54,
+        "segundos": 1.8,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "tambalearse",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "furia",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "el_director": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 150,
+        "segundos": 5.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "mirar_abajo",
+        "fotogramas": 75,
+        "segundos": 2.5,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "policia_patrullero": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 26,
+        "segundos": 0.867,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.5
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 19,
+        "segundos": 0.633,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 4.8
+      },
+      {
+        "nombre": "silbato",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "placaje",
+        "fotogramas": 33,
+        "segundos": 1.1,
+        "bucle": false,
+        "a_pocos_fotogramas": false,
+        "pareja": "elias_civil/muerte_placaje",
+        "distancia": 1.3
+      }
+    ],
+    "policia_tactico": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 28,
+        "segundos": 0.933,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.2
+      }
+    ],
+    "guardia_penitenciario": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 27,
+        "segundos": 0.9,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.4
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 19,
+        "segundos": 0.633,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 4.2
+      }
+    ],
+    "interrogador": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 30,
+        "segundos": 1.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.0
+      },
+      {
+        "nombre": "golpe_mesa",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      }
+    ],
+    "verdugo": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 34,
+        "segundos": 1.133,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.0
+      }
+    ],
+    "alcaide": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "hablar",
+        "fotogramas": 78,
+        "segundos": 2.6,
+        "bucle": false,
+        "a_pocos_fotogramas": false
+      }
+    ],
+    "preso_generico_a": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 27,
+        "segundos": 0.9,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.3
+      }
+    ],
+    "preso_generico_b": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 27,
+        "segundos": 0.9,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.3
+      }
+    ],
+    "preso_generico_c": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": false
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 27,
+        "segundos": 0.9,
+        "bucle": true,
+        "a_pocos_fotogramas": false,
+        "velocidad": 1.3
+      }
+    ],
+    "aislado_a": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 45,
+        "segundos": 1.5,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 0.7
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 24,
+        "segundos": 0.8,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 2.6
+      },
+      {
+        "nombre": "atacar",
+        "fotogramas": 39,
+        "segundos": 1.3,
+        "bucle": false,
+        "a_pocos_fotogramas": true,
+        "pareja": "elias_preso/muerte_arrastrado",
+        "distancia": 0.7
+      },
+      {
+        "nombre": "escuchar",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "morir",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ],
+    "aislado_b": [
+      {
+        "nombre": "quieto_loop",
+        "fotogramas": 90,
+        "segundos": 3.0,
+        "bucle": true,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "andar_loop",
+        "fotogramas": 45,
+        "segundos": 1.5,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 0.7
+      },
+      {
+        "nombre": "correr_loop",
+        "fotogramas": 24,
+        "segundos": 0.8,
+        "bucle": true,
+        "a_pocos_fotogramas": true,
+        "velocidad": 2.6
+      },
+      {
+        "nombre": "atacar",
+        "fotogramas": 39,
+        "segundos": 1.3,
+        "bucle": false,
+        "a_pocos_fotogramas": true,
+        "pareja": "elias_preso/muerte_arrastrado",
+        "distancia": 0.7
+      },
+      {
+        "nombre": "escuchar",
+        "fotogramas": 48,
+        "segundos": 1.6,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      },
+      {
+        "nombre": "morir",
+        "fotogramas": 42,
+        "segundos": 1.4,
+        "bucle": false,
+        "a_pocos_fotogramas": true
+      }
+    ]
+  }
+}
