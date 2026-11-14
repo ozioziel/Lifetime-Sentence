@@ -1,0 +1,29 @@
+# ---- Godot ----
+# Caché del editor: se regenera sola al abrir el proyecto.
+juego/.godot/
+*.translation
+
+# ---- Python (herramientas de arte) ----
+fuentes_arte/.venv/
+__pycache__/
+*.pyc
+
+# ---- Blender: copias automáticas ----
+*.blend1
+*.blend2
+
+# ---- Copias de seguridad y builds (no van al repositorio) ----
+respaldos/
+entregas/pruebas/
+entregas/*.exe
+entregas/*.pck
+entregas/*.zip
+# Archivos comprimidos sueltos (copias manuales del equipo).
+*.rar
+*.7z
+
+# ---- Sistema ----
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
