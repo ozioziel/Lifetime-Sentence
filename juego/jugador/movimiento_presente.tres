@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PerfilMovimiento" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://jugador/perfil_movimiento.gd" id="1_perfil"]
+
+[resource]
+script = ExtResource("1_perfil")
+velocidad_andar = 1.55
+velocidad_correr = 3.5
+velocidad_agachado = 0.95
+aceleracion = 8.0
+frenado = 11.0
+velocidad_giro = 8.0
+puede_agacharse = true

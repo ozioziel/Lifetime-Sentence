@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/menu_principal.gd" id="1_menu"]
+[ext_resource type="PackedScene" path="res://ui/fondo_cinematico.tscn" id="2_fondo"]
+
+[node name="MenuPrincipal" type="Node3D"]
+script = ExtResource("1_menu")
+
+[node name="Fondo" parent="." instance=ExtResource("2_fondo")]

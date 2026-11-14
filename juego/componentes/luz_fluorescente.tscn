@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://componentes/luz_fluorescente.gd" id="1_luz"]
+[ext_resource type="Shader" path="res://render/ps1_superficie.gdshader" id="2_ps1"]
+
+[sub_resource type="ShaderMaterial" id="Mat_carcasa"]
+shader = ExtResource("2_ps1")
+shader_parameter/color = Color(0.16, 0.18, 0.17, 1)
+shader_parameter/rugosidad = 0.7
+shader_parameter/especular = 0.4
+
+[sub_resource type="BoxMesh" id="Malla_carcasa"]
+material = SubResource("Mat_carcasa")
+size = Vector3(1.3, 0.04, 0.22)
+
+[sub_resource type="ShaderMaterial" id="Mat_tubo"]
+shader = ExtResource("2_ps1")
+shader_parameter/color = Color(0.85, 0.9, 0.88, 1)
+shader_parameter/emision = Color(0.78, 0.93, 0.88, 1)
+shader_parameter/energia_emision = 2.9
+
+[sub_resource type="BoxMesh" id="Malla_tubo"]
+material = SubResource("Mat_tubo")
+size = Vector3(1.2, 0.04, 0.1)
+
+[node name="LuzFluorescente" type="Node3D"]
+script = ExtResource("1_luz")
+
+[node name="Carcasa" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
+cast_shadow = 0
+mesh = SubResource("Malla_carcasa")
+
+[node name="Tubo" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+cast_shadow = 0
+mesh = SubResource("Malla_tubo")
+
+[node name="Luz" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, -0.1, 0)
+light_color = Color(0.78, 0.93, 0.88, 1)
+light_energy = 2.6
+light_specular = 0.6
+shadow_enabled = true
+shadow_bias = 0.06
+spot_range = 8.0
+spot_attenuation = 0.75
+spot_angle = 80.0
+spot_angle_attenuation = 0.9

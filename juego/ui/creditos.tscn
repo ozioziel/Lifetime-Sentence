@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://ui/creditos.gd" id="1_creditos"]
+[ext_resource type="PackedScene" path="res://ui/fondo_cinematico.tscn" id="2_fondo"]
+
+[node name="Creditos" type="Node3D"]
+script = ExtResource("1_creditos")
+
+[node name="Fondo" parent="." instance=ExtResource("2_fondo")]
+orden = PackedInt32Array(2, 0, 3, 1, 4)
+duracion = 7.0

@@ -1,0 +1,484 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/fondo_cinematico.gd" id="1_oxiaj"]
+[ext_resource type="PackedScene" path="res://assets/escenarios/bloque_a_juego.glb" id="2_guumk"]
+[ext_resource type="PackedScene" path="res://componentes/luz_fluorescente.tscn" id="3_nhbtv"]
+[ext_resource type="Script" path="res://componentes/luz_fluorescente.gd" id="4_25ee2"]
+[ext_resource type="Script" path="res://componentes/luz_alarma.gd" id="5_qkanr"]
+[ext_resource type="Script" path="res://personajes/modelo_personaje.gd" id="6_c7vvh"]
+[ext_resource type="PackedScene" path="res://assets/escenarios/callejon.glb" id="7_ctfvj"]
+[ext_resource type="Script" path="res://componentes/lluvia.gd" id="8_cvyce"]
+[ext_resource type="PackedScene" path="res://assets/escenarios/patio_central.glb" id="9_ep0oq"]
+[ext_resource type="Shader" path="res://render/ps1_superficie.gdshader" id="10_35vtd"]
+[ext_resource type="PackedScene" path="res://assets/escenarios/ejecucion.glb" id="11_uh5v2"]
+[ext_resource type="PackedScene" path="res://assets/escenarios/enfermeria.glb" id="12_n360s"]
+
+[sub_resource type="Environment" id="Environment_7jixx"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.16, 0.19, 0.18, 1)
+ambient_light_energy = 0.9
+tonemap_mode = 2
+glow_intensity = 0.4
+fog_enabled = true
+fog_light_color = Color(0.05, 0.07, 0.065, 1)
+fog_density = 0.04
+
+[sub_resource type="Environment" id="Environment_ucbus"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.22, 0.18, 0.15, 1)
+ambient_light_energy = 1.15
+tonemap_mode = 2
+glow_intensity = 0.4
+fog_enabled = true
+fog_light_color = Color(0.1, 0.085, 0.075, 1)
+fog_density = 0.016
+
+[sub_resource type="Environment" id="Environment_5skfw"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.2, 0.23, 0.28, 1)
+ambient_light_energy = 1.45
+tonemap_mode = 2
+glow_intensity = 0.4
+fog_enabled = true
+fog_light_color = Color(0.1, 0.12, 0.15, 1)
+fog_density = 0.011
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wun2e"]
+render_priority = 0
+shader = ExtResource("10_35vtd")
+shader_parameter/color = Color(0.32, 0.28, 0.22, 1)
+shader_parameter/usar_color_vertice = null
+shader_parameter/triplanar = true
+shader_parameter/escala_uv = 0.5
+shader_parameter/rugosidad = 0.9
+shader_parameter/especular = 0.25
+shader_parameter/metalico = null
+shader_parameter/emision = null
+shader_parameter/energia_emision = null
+shader_parameter/emision_desde_textura = null
+shader_parameter/recorte_alfa = null
+shader_parameter/disolucion = null
+
+[sub_resource type="BoxMesh" id="BoxMesh_sf6en"]
+material = SubResource("ShaderMaterial_wun2e")
+size = Vector3(0.025, 0.8, 0.025)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wd4vu"]
+material = SubResource("ShaderMaterial_wun2e")
+size = Vector3(0.025, 0.8, 0.025)
+
+[sub_resource type="BoxMesh" id="BoxMesh_trp1y"]
+material = SubResource("ShaderMaterial_wun2e")
+size = Vector3(0.025, 0.8, 0.025)
+
+[sub_resource type="Environment" id="Environment_c22uc"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.16, 0.12, 0.11, 1)
+tonemap_mode = 2
+glow_intensity = 0.4
+fog_enabled = true
+fog_light_color = Color(0.1, 0.05, 0.04, 1)
+fog_density = 0.03
+
+[sub_resource type="Environment" id="Environment_lb10w"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.17, 0.2, 0.19, 1)
+tonemap_mode = 2
+glow_intensity = 0.4
+fog_enabled = true
+fog_light_color = Color(0.07, 0.08, 0.075, 1)
+fog_density = 0.035
+
+[node name="FondoCinematico" type="Node3D" unique_id=2045190377]
+script = ExtResource("1_oxiaj")
+orden = PackedInt32Array()
+
+[node name="Set0" type="Node3D" parent="." unique_id=1792992586]
+metadata/epoca = 0
+
+[node name="Escenario" type="Node3D" parent="Set0" unique_id=738712327 instance=ExtResource("2_guumk")]
+
+[node name="Camara" type="Camera3D" parent="Set0" unique_id=1081730261]
+transform = Transform3D(0.019018298, -0.002716396, -0.9998154, 0, 0.9999963, -0.0027168873, 0.99981916, 5.1670573e-05, 0.019018227, 1.6, 1.35, 0.35)
+environment = SubResource("Environment_7jixx")
+fov = 55.0
+far = 220.0
+
+[node name="Desde" type="Marker3D" parent="Set0" unique_id=198522]
+transform = Transform3D(0.019018298, -0.002716396, -0.9998154, 0, 0.9999963, -0.0027168873, 0.99981916, 5.1670573e-05, 0.019018227, 1.6, 1.35, 0.35)
+
+[node name="Hasta" type="Marker3D" parent="Set0" unique_id=168609806]
+transform = Transform3D(-0.01304237, -0.0217303, -0.99967873, 0, 0.9997637, -0.021732148, 0.99991494, -0.0002834387, -0.013039289, 8.5, 1.25, -0.15)
+
+[node name="Fluor0" type="Node3D" parent="Set0" unique_id=1696059815 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 2.72, 0)
+script = ExtResource("4_25ee2")
+energia = 3.2
+alcance = 7.5
+mostrar_tubo = false
+
+[node name="Fluor1" type="Node3D" parent="Set0" unique_id=1133460929 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2.72, 0)
+script = ExtResource("4_25ee2")
+estado = 2
+energia = 3.2
+alcance = 7.5
+mostrar_tubo = false
+
+[node name="Fluor2" type="Node3D" parent="Set0" unique_id=953685641 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.72, 0)
+script = ExtResource("4_25ee2")
+estado = 1
+energia = 3.2
+alcance = 7.5
+mostrar_tubo = false
+
+[node name="Fluor3" type="Node3D" parent="Set0" unique_id=1117007608 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 2.72, 0)
+script = ExtResource("4_25ee2")
+energia = 3.2
+alcance = 7.5
+mostrar_tubo = false
+
+[node name="Alarma" type="OmniLight3D" parent="Set0" unique_id=1805680464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2.55, 0)
+omni_range = 9.0
+script = ExtResource("5_qkanr")
+encendida_al_empezar = true
+
+[node name="Uniforme" type="Node3D" parent="Set0" unique_id=1698460065]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 20, 0, 0)
+script = ExtResource("6_c7vvh")
+personaje = "el_uniforme"
+animacion_inicial = &"recuento"
+
+[node name="Cadaver" type="Node3D" parent="Set0" unique_id=155179927]
+transform = Transform3D(0.49999997, 0, 0.86602545, 0, 1, 0, -0.86602545, 0, 0.49999997, 12, 0, 0.4)
+script = ExtResource("6_c7vvh")
+personaje = "aislado_a"
+animacion_inicial = &"morir"
+pose_fija = 1.0
+
+[node name="Relleno" type="OmniLight3D" parent="Set0" unique_id=124376720]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 2.4, 0)
+light_color = Color(0.6, 0.72, 0.75, 1)
+light_energy = 1.2
+omni_attenuation = 1.2
+
+[node name="Set1" type="Node3D" parent="." unique_id=258187850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 300, 0, 0)
+metadata/epoca = 1
+
+[node name="Escenario" type="Node3D" parent="Set1" unique_id=609550698 instance=ExtResource("7_ctfvj")]
+
+[node name="Camara" type="Camera3D" parent="Set1" unique_id=88620408]
+transform = Transform3D(-0.9897284, 0.0015720412, 0.14295211, 0, 0.9999395, -0.010996313, -0.14296076, -0.010883363, -0.9896685, 1.6, 1.2, -16)
+environment = SubResource("Environment_ucbus")
+fov = 52.0
+far = 220.0
+
+[node name="Desde" type="Marker3D" parent="Set1" unique_id=163001369]
+transform = Transform3D(-0.9897284, 0.0015720412, 0.14295211, 0, 0.9999395, -0.010996313, -0.14296076, -0.010883363, -0.9896685, 1.6, 1.2, -16)
+
+[node name="Hasta" type="Marker3D" parent="Set1" unique_id=1493847801]
+transform = Transform3D(-0.9499766, -0.004064009, 0.31229463, 0, 0.9999154, 0.01301228, -0.31232107, 0.012361362, -0.9498962, 0.4, 1.7, -8)
+
+[node name="Lluvia" type="GPUParticles3D" parent="Set1" unique_id=1122957161]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -8)
+script = ExtResource("8_cvyce")
+radio_activo = 60.0
+
+[node name="Sodio3" type="OmniLight3D" parent="Set1" unique_id=1876705039]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 4.15, -3.5)
+light_color = Color(1, 0.6, 0.27, 1)
+light_energy = 2.8
+omni_range = 12.0
+omni_attenuation = 1.2
+
+[node name="Sodio16" type="OmniLight3D" parent="Set1" unique_id=921171433]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75, 4.15, -16)
+light_color = Color(1, 0.6, 0.27, 1)
+light_energy = 2.8
+omni_range = 12.0
+omni_attenuation = 1.2
+
+[node name="SodioInicio" type="OmniLight3D" parent="Set1" unique_id=557702701]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 4, 4.5)
+light_color = Color(1, 0.6, 0.27, 1)
+light_energy = 2.2
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Elias" type="Node3D" parent="Set1" unique_id=322756884]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, -0.5, 0, -2.5)
+script = ExtResource("6_c7vvh")
+personaje = "elias_civil"
+animacion_inicial = &"correr_mirando_atras"
+pose_fija = 0.3
+
+[node name="Policia" type="Node3D" parent="Set1" unique_id=334704025]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.5, 0, 4)
+script = ExtResource("6_c7vvh")
+personaje = "policia_patrullero"
+animacion_inicial = &"correr"
+pose_fija = 0.6
+
+[node name="Linterna" type="SpotLight3D" parent="Set1" unique_id=2141834826]
+transform = Transform3D(0.9887155, -0.008960589, 0.14953716, 0, 0.99820954, 0.05981486, -0.1498054, -0.05913988, 0.9869452, 0.6, 1.4, 3.6)
+light_color = Color(1, 0.95, 0.82, 1)
+light_energy = 4.0
+spot_range = 14.0
+spot_attenuation = 0.8
+spot_angle = 17.0
+
+[node name="Set2" type="Node3D" parent="." unique_id=1490885866]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 600, 0, 0)
+metadata/epoca = 0
+
+[node name="Escenario" type="Node3D" parent="Set2" unique_id=667965764 instance=ExtResource("9_ep0oq")]
+
+[node name="Camara" type="Camera3D" parent="Set2" unique_id=362018249]
+transform = Transform3D(0.9766445, 0.03959977, -0.21118107, 0, 0.98286945, 0.18430345, 0.2148618, -0.17999895, 0.95991397, -11, 33.6, 30)
+environment = SubResource("Environment_5skfw")
+fov = 60.0
+far = 220.0
+
+[node name="Desde" type="Marker3D" parent="Set2" unique_id=194910412]
+transform = Transform3D(0.9766445, 0.03959977, -0.21118107, 0, 0.98286945, 0.18430345, 0.2148618, -0.17999895, 0.95991397, -11, 33.6, 30)
+
+[node name="Hasta" type="Marker3D" parent="Set2" unique_id=723703175]
+transform = Transform3D(0.9965458, 0.05305581, -0.063887656, 0, 0.7693093, 0.63887656, 0.08304548, -0.63666975, 0.76665187, -3, 44, 6)
+
+[node name="Vacio_8_-25" type="OmniLight3D" parent="Set2" unique_id=1676414151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -25)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_8_0" type="OmniLight3D" parent="Set2" unique_id=1181738804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_8_22" type="OmniLight3D" parent="Set2" unique_id=1433994575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 22)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_22_-25" type="OmniLight3D" parent="Set2" unique_id=235340339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, -25)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_22_0" type="OmniLight3D" parent="Set2" unique_id=1080449628]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 0)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_22_22" type="OmniLight3D" parent="Set2" unique_id=385830897]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 22, 22)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_40_-25" type="OmniLight3D" parent="Set2" unique_id=104048353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, -25)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_40_0" type="OmniLight3D" parent="Set2" unique_id=519156235]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 0)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Vacio_40_22" type="OmniLight3D" parent="Set2" unique_id=2117273090]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 22)
+light_color = Color(0.55, 0.64, 0.78, 1)
+light_energy = 1.1
+omni_range = 24.0
+omni_attenuation = 1.2
+
+[node name="Torre" type="OmniLight3D" parent="Set2" unique_id=1711622264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 37.2, 27)
+light_color = Color(1, 0.72, 0.42, 1)
+light_energy = 2.4
+omni_range = 10.0
+omni_attenuation = 1.2
+
+[node name="Colgado0" type="Node3D" parent="Set2" unique_id=2076595961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 31.45, -20)
+
+[node name="Cuerda" type="MeshInstance3D" parent="Set2/Colgado0" unique_id=1591704244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_sf6en")
+
+[node name="Cuerpo" type="Node3D" parent="Set2/Colgado0" unique_id=129784875]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.65, 0)
+script = ExtResource("6_c7vvh")
+personaje = "preso_generico_a"
+pose_fija = 0.0
+
+[node name="Colgado1" type="Node3D" parent="Set2" unique_id=1503109252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 31.45, -20)
+
+[node name="Cuerda" type="MeshInstance3D" parent="Set2/Colgado1" unique_id=1833676477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_wd4vu")
+
+[node name="Cuerpo" type="Node3D" parent="Set2/Colgado1" unique_id=806264428]
+transform = Transform3D(0.34202015, 0, 0.9396926, 0, 1, 0, -0.9396926, 0, 0.34202015, 0, -2.65, 0)
+script = ExtResource("6_c7vvh")
+personaje = "preso_generico_b"
+pose_fija = 0.0
+
+[node name="Colgado2" type="Node3D" parent="Set2" unique_id=1967434343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 31.45, -20)
+
+[node name="Cuerda" type="MeshInstance3D" parent="Set2/Colgado2" unique_id=1449444794]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_trp1y")
+
+[node name="Cuerpo" type="Node3D" parent="Set2/Colgado2" unique_id=2046524022]
+transform = Transform3D(-0.76604444, 0, 0.64278764, 0, 1, 0, -0.64278764, 0, -0.76604444, 0, -2.65, 0)
+script = ExtResource("6_c7vvh")
+personaje = "preso_generico_c"
+pose_fija = 0.0
+
+[node name="Vigilante" type="Node3D" parent="Set2" unique_id=1730360674]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -3.75, 34.3, 27)
+script = ExtResource("6_c7vvh")
+personaje = "el_vigilante"
+
+[node name="FocoVigilante" type="SpotLight3D" parent="Set2" unique_id=1627116898]
+transform = Transform3D(0.51601267, -0.3198312, 0.79463136, 0, 0.927678, 0.37338117, -0.8565809, -0.1926694, 0.47869363, -3.9, 36.4, 27)
+light_color = Color(0.92, 0.95, 1, 1)
+light_energy = 9.0
+shadow_enabled = true
+spot_range = 30.0
+spot_attenuation = 0.8
+spot_angle = 16.0
+
+[node name="Set3" type="Node3D" parent="." unique_id=2073816604]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 900, 0, 0)
+metadata/epoca = 0
+
+[node name="Escenario" type="Node3D" parent="Set3" unique_id=842429471 instance=ExtResource("11_uh5v2")]
+
+[node name="Camara" type="Camera3D" parent="Set3" unique_id=850582116]
+transform = Transform3D(0.8944272, -0.06335453, -0.44270328, 0, 0.9899146, -0.14166504, 0.4472136, 0.12670906, 0.88540655, 6, 1, -2)
+environment = SubResource("Environment_c22uc")
+fov = 48.0
+far = 220.0
+
+[node name="Desde" type="Marker3D" parent="Set3" unique_id=738475061]
+transform = Transform3D(0.8944272, -0.06335453, -0.44270328, 0, 0.9899146, -0.14166504, 0.4472136, 0.12670906, 0.88540655, 6, 1, -2)
+
+[node name="Hasta" type="Marker3D" parent="Set3" unique_id=358886830]
+transform = Transform3D(0.97553617, -0.024019957, -0.21852301, 0, 0.9940131, -0.10926149, 0.21983919, 0.106588535, 0.9696956, 9.4, 1.6, -5.4)
+
+[node name="Roja_0" type="OmniLight3D" parent="Set3" unique_id=1276297869]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 3.2, -6)
+light_color = Color(0.85, 0.12, 0.07, 1)
+light_energy = 2.6
+omni_range = 12.0
+omni_attenuation = 1.2
+
+[node name="Roja_21" type="OmniLight3D" parent="Set3" unique_id=1697543332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.6, 3.2, -8)
+light_color = Color(0.85, 0.12, 0.07, 1)
+light_energy = 2.6
+omni_range = 12.0
+omni_attenuation = 1.2
+
+[node name="Roja_16" type="OmniLight3D" parent="Set3" unique_id=1937989872]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.2, -15.6)
+light_color = Color(0.85, 0.12, 0.07, 1)
+light_energy = 2.6
+omni_range = 12.0
+omni_attenuation = 1.2
+
+[node name="Patibulo" type="SpotLight3D" parent="Set3" unique_id=1567262150]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 11, 8.6, -9.4)
+light_color = Color(0.85, 0.82, 0.75, 1)
+light_energy = 4.0
+shadow_enabled = true
+spot_range = 12.0
+spot_attenuation = 0.8
+spot_angle = 42.0
+
+[node name="Sentencia" type="Node3D" parent="Set3" unique_id=2086672973]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 11, 0, -12.6)
+script = ExtResource("6_c7vvh")
+personaje = "la_sentencia"
+escala = 1.25
+
+[node name="Set4" type="Node3D" parent="." unique_id=1550374069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1200, 0, 0)
+metadata/epoca = 0
+
+[node name="Escenario" type="Node3D" parent="Set4" unique_id=757492573 instance=ExtResource("12_n360s")]
+
+[node name="Camara" type="Camera3D" parent="Set4" unique_id=1724891224]
+transform = Transform3D(0.7071068, 0.066372335, -0.70398486, 0, 0.995585, 0.09386465, 0.7071068, -0.066372335, 0.70398486, 2, 1.6, -1)
+environment = SubResource("Environment_lb10w")
+fov = 55.0
+far = 220.0
+
+[node name="Desde" type="Marker3D" parent="Set4" unique_id=788891123]
+transform = Transform3D(0.7071068, 0.066372335, -0.70398486, 0, 0.995585, 0.09386465, 0.7071068, -0.066372335, 0.70398486, 2, 1.6, -1)
+
+[node name="Hasta" type="Marker3D" parent="Set4" unique_id=1599499733]
+transform = Transform3D(0.9363292, 0.008216928, -0.35102725, 0, 0.9997262, 0.023401823, 0.3511234, -0.02191181, 0.9360728, 4.2, 1.5, -4.6)
+
+[node name="Fluor_3" type="Node3D" parent="Set4" unique_id=13579762 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 3.3, -2.5)
+script = ExtResource("4_25ee2")
+estado = 2
+energia = 3.0
+mostrar_tubo = false
+
+[node name="Fluor_9" type="Node3D" parent="Set4" unique_id=1722553528 instance=ExtResource("3_nhbtv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 3.3, -6.5)
+script = ExtResource("4_25ee2")
+estado = 2
+energia = 3.0
+mostrar_tubo = false
+
+[node name="Quirofano" type="SpotLight3D" parent="Set4" unique_id=539714809]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 6.5, 2.05, -5)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 5.0
+shadow_enabled = true
+spot_range = 4.0
+spot_attenuation = 0.8
+spot_angle = 48.0
+
+[node name="Condenado" type="Node3D" parent="Set4" unique_id=1609083702]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 5.7, 0, -7.6)
+script = ExtResource("6_c7vvh")
+personaje = "el_condenado"
+animacion_inicial = &"acechar"
+
+[node name="Relleno" type="OmniLight3D" parent="Set4" unique_id=949084649]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7, 2.6, -6.8)
+light_color = Color(0.7, 0.8, 0.78, 1)
+omni_attenuation = 1.2
