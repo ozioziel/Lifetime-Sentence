@@ -1,0 +1,364 @@
+[gd_scene format=3]
+
+[ext_resource type="Material" path="res://assets/materiales/provisional/suelo.tres" id="1_22dja"]
+[ext_resource type="Material" path="res://assets/materiales/provisional/techo.tres" id="2_04utk"]
+[ext_resource type="Material" path="res://assets/materiales/provisional/pared_celda.tres" id="3_mr88y"]
+[ext_resource type="Material" path="res://assets/materiales/provisional/metal_pintado.tres" id="4_25q53"]
+[ext_resource type="ArrayMesh" path="res://assets/modelos/provisional/reja_1m8.tres" id="5_0qjhj"]
+[ext_resource type="ArrayMesh" path="res://assets/modelos/provisional/reja_1m0.tres" id="6_n60pa"]
+[ext_resource type="ArrayMesh" path="res://assets/modelos/provisional/puerta_reja_0m8.tres" id="7_im1fw"]
+[ext_resource type="PackedScene" path="res://componentes/luz_fluorescente.tscn" id="8_arb3v"]
+[ext_resource type="Script" path="res://componentes/luz_fluorescente.gd" id="9_ta2xb"]
+[ext_resource type="PackedScene" path="res://componentes/camera_zone.tscn" id="10_1lvr3"]
+[ext_resource type="Script" path="res://componentes/camera_zone.gd" id="11_ct4bg"]
+[ext_resource type="PackedScene" path="res://jugador/jugador.tscn" id="12_xq4u7"]
+[ext_resource type="Script" path="res://jugador/jugador.gd" id="13_24eya"]
+[ext_resource type="Resource" path="res://jugador/movimiento_presente.tres" id="14_w2be5"]
+[ext_resource type="Resource" path="res://jugador/movimiento_pasado.tres" id="15_qmgag"]
+
+[sub_resource type="Environment" id="Environment_uqfhx"]
+background_mode = 1
+ambient_light_source = 2
+ambient_light_color = Color(0.36, 0.47, 0.55, 1)
+ambient_light_energy = 0.22
+tonemap_mode = 2
+glow_intensity = 0.7
+glow_bloom = 0.08
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.06, 0.09, 0.11, 1)
+fog_density = 1.0
+fog_depth_begin = 2.0
+fog_depth_end = 20.0
+volumetric_fog_density = 0.035
+volumetric_fog_albedo = Color(0.75, 0.85, 0.9, 1)
+volumetric_fog_length = 24.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7o24t"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qkxy2"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u2ww1"]
+size = Vector3(1, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_p4drd"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vlspy"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6q21w"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2ypxa"]
+size = Vector3(1.8, 2.4, 0.08)
+
+[sub_resource type="Curve3D" id="Curve3D_2quwu"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 4.5, 1.5, -2.2, -0.4, 0, -0.62, 0.4, 0, 0.62, 4.5, 1.5, 0.4, -1.7, 0, -0.080000006, 1.7, 0, 0.080000006, 6.5, 1.5, 0.9, -1.6200001, 0, -0.060000014, 1.6200001, 0, 0.060000014, 13, 1.5, 0.8, -0.36000004, 0, -0.74, 0.36000004, 0, 0.74, 14.6, 1.5, 1.2, -0.03999996, 0.11000001, -1, 0.03999996, -0.11000001, 1, 14.8, 1.5, 4.5, 0, 0.11000001, -0.66, 0, -0.11000001, 0.66, 14.8, 0.95, 6.2, 0, -0.11000001, -0.6, 0, 0.11000001, 0.6, 14.8, 0.95, 7.8, 0, -0.11000001, -0.6, 0, 0.11000001, 0.6, 14.8, 1.5, 9.2, 0, 0, 0, 0, 0, 0, 14.8, 1.5, 10.8),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
+
+[node name="CajaGris" type="Node3D" unique_id=1174764009]
+
+[node name="Entorno" type="WorldEnvironment" parent="." unique_id=1398862258]
+environment = SubResource("Environment_uqfhx")
+
+[node name="Geometria" type="CSGCombiner3D" parent="." unique_id=911215471]
+use_collision = true
+collision_mask = 0
+
+[node name="Suelo" type="CSGBox3D" parent="Geometria" unique_id=2135775835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, -0.1, 4.3)
+size = Vector3(16, 0.2, 15)
+material = ExtResource("1_22dja")
+
+[node name="TechoCeldasYPasilloA" type="CSGBox3D" parent="Geometria" unique_id=38533742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 2.5, -0.70000005)
+size = Vector3(16, 0.19999981, 5)
+material = ExtResource("2_04utk")
+
+[node name="TechoPasilloB" type="CSGBox3D" parent="Geometria" unique_id=1144211533]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8, 2.5, 6.8)
+size = Vector3(2, 0.19999981, 10)
+material = ExtResource("2_04utk")
+
+[node name="MuroFondoCeldas" type="CSGBox3D" parent="Geometria" unique_id=1560260947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9500003, 1.2, -3.1)
+size = Vector3(14.3, 2.4, 0.20000005)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique0" type="CSGBox3D" parent="Geometria" unique_id=1038027196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.5)
+size = Vector3(0.2, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique1" type="CSGBox3D" parent="Geometria" unique_id=1261652588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.2, -1.5)
+size = Vector3(0.19999993, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique2" type="CSGBox3D" parent="Geometria" unique_id=1716242024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1.2, -1.5)
+size = Vector3(0.19999981, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique3" type="CSGBox3D" parent="Geometria" unique_id=328674644]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.2, -1.5)
+size = Vector3(0.19999981, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique4" type="CSGBox3D" parent="Geometria" unique_id=1482173015]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.2, -1.5)
+size = Vector3(0.20000029, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique5" type="CSGBox3D" parent="Geometria" unique_id=114271508]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.2, -1.5)
+size = Vector3(0.20000076, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique6" type="CSGBox3D" parent="Geometria" unique_id=1417831059]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, -1.5)
+size = Vector3(0.20000076, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="Tabique7" type="CSGBox3D" parent="Geometria" unique_id=1519486579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.2, -1.5)
+size = Vector3(0.20000076, 2.4, 3)
+material = ExtResource("3_mr88y")
+
+[node name="MuroOestePasilloA" type="CSGBox3D" parent="Geometria" unique_id=1982289528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 1.2, 0.9)
+size = Vector3(0.2, 2.4, 1.8)
+material = ExtResource("3_mr88y")
+
+[node name="MuroSurPasilloA" type="CSGBox3D" parent="Geometria" unique_id=936004848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9, 1.2, 1.7)
+size = Vector3(13.8, 2.4, 0.19999993)
+material = ExtResource("3_mr88y")
+
+[node name="MuroNorteRecodo" type="CSGBox3D" parent="Geometria" unique_id=1704700442]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.950001, 1.2, -0.1)
+size = Vector3(1.6999998, 2.4, 0.2)
+material = ExtResource("3_mr88y")
+
+[node name="MuroEste" type="CSGBox3D" parent="Geometria" unique_id=1976517258]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.700001, 1.2, 5.9)
+size = Vector3(0.19999981, 2.4, 11.8)
+material = ExtResource("3_mr88y")
+
+[node name="MuroOestePasilloB" type="CSGBox3D" parent="Geometria" unique_id=946180240]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.9, 1.2, 6.6000004)
+size = Vector3(0.19999981, 2.4, 10)
+material = ExtResource("3_mr88y")
+
+[node name="MuroFondoPasilloB" type="CSGBox3D" parent="Geometria" unique_id=211953300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.700001, 1.2, 11.700001)
+size = Vector3(1.8000002, 2.4, 0.19999981)
+material = ExtResource("3_mr88y")
+
+[node name="ConductoCaido" type="CSGBox3D" parent="Geometria" unique_id=1662418395]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8, 1.825, 7)
+size = Vector3(1.6000004, 1.1500001, 2)
+material = ExtResource("4_25q53")
+
+[node name="Rejas" type="Node3D" parent="." unique_id=1572727769]
+
+[node name="Reja0" type="MeshInstance3D" parent="Rejas" unique_id=1264520008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja0" unique_id=514402568]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja0/Colision" unique_id=1311356465]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_7o24t")
+
+[node name="Reja1" type="MeshInstance3D" parent="Rejas" unique_id=2022456364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja1" unique_id=1650861959]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja1/Colision" unique_id=1230641362]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_qkxy2")
+
+[node name="RejaFija2" type="MeshInstance3D" parent="Rejas" unique_id=997402342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4, 0, 0)
+mesh = ExtResource("6_n60pa")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/RejaFija2" unique_id=1532734767]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/RejaFija2/Colision" unique_id=1613348692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_u2ww1")
+
+[node name="PuertaAbierta" type="MeshInstance3D" parent="Rejas" unique_id=592026979]
+transform = Transform3D(-0.99026805, 0, 0.13917318, 0, 1, 0, -0.13917318, 0, -0.99026805, 4.9, 0, 0.04)
+mesh = ExtResource("7_im1fw")
+
+[node name="Reja3" type="MeshInstance3D" parent="Rejas" unique_id=299419812]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja3" unique_id=1402297830]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja3/Colision" unique_id=270245899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_p4drd")
+
+[node name="Reja4" type="MeshInstance3D" parent="Rejas" unique_id=1398882808]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja4" unique_id=263223661]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja4/Colision" unique_id=1247417305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_vlspy")
+
+[node name="Reja5" type="MeshInstance3D" parent="Rejas" unique_id=749637746]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja5" unique_id=325986607]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja5/Colision" unique_id=20040931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_6q21w")
+
+[node name="Reja6" type="MeshInstance3D" parent="Rejas" unique_id=1099169967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0)
+mesh = ExtResource("5_0qjhj")
+
+[node name="Colision" type="StaticBody3D" parent="Rejas/Reja6" unique_id=1191594495]
+collision_mask = 0
+
+[node name="Forma" type="CollisionShape3D" parent="Rejas/Reja6/Colision" unique_id=739659220]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape3D_2ypxa")
+
+[node name="Luces" type="Node3D" parent="." unique_id=2061676051]
+
+[node name="LuzCelda" type="Node3D" parent="Luces" unique_id=1897063434 instance=ExtResource("8_arb3v")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 5, 2.4, -1.5)
+script = ExtResource("9_ta2xb")
+estado = 1
+sombras_en_calidad_baja = true
+
+[node name="LuzPasilloA1" type="Node3D" parent="Luces" unique_id=314114182 instance=ExtResource("8_arb3v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.4, 0.8)
+script = ExtResource("9_ta2xb")
+estado = 2
+
+[node name="LuzPasilloA2" type="Node3D" parent="Luces" unique_id=549750816 instance=ExtResource("8_arb3v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2.4, 0.8)
+script = ExtResource("9_ta2xb")
+sombras_en_calidad_baja = true
+
+[node name="LuzPasilloA3" type="Node3D" parent="Luces" unique_id=1677821747 instance=ExtResource("8_arb3v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 2.4, 0.8)
+script = ExtResource("9_ta2xb")
+estado = 1
+
+[node name="LuzPasilloB1" type="Node3D" parent="Luces" unique_id=1569807208 instance=ExtResource("8_arb3v")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.8, 2.4, 4)
+script = ExtResource("9_ta2xb")
+
+[node name="LuzPasilloB2" type="Node3D" parent="Luces" unique_id=25594070 instance=ExtResource("8_arb3v")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 14.8, 2.4, 10)
+script = ExtResource("9_ta2xb")
+estado = 2
+
+[node name="ZonasCamara" type="Node3D" parent="." unique_id=630702958]
+
+[node name="ZonaCelda" type="Area3D" parent="ZonasCamara" unique_id=1636556267 instance=ExtResource("10_1lvr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.2, -1.5)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("11_ct4bg")
+tamano = Vector3(2, 2.4, 3)
+distancia = 1.15
+desplazamiento_lateral = 0.28
+fov = 70.0
+prioridad = 1
+
+[node name="ZonaPasilloA" type="Area3D" parent="ZonasCamara" unique_id=1622235911 instance=ExtResource("10_1lvr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.2, 0.8)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("11_ct4bg")
+tamano = Vector3(14.2, 2.4, 1.6)
+distancia = 1.55
+altura = 1.5
+desplazamiento_lateral = 0.34
+fov = 64.0
+
+[node name="ZonaPasilloB" type="Area3D" parent="ZonasCamara" unique_id=567814907 instance=ExtResource("10_1lvr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8, 1.2, 5.8)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("11_ct4bg")
+tamano = Vector3(1.6, 2.4, 11.8)
+distancia = 1.55
+altura = 1.5
+desplazamiento_lateral = 0.34
+fov = 64.0
+
+[node name="ZonaPasoBajo" type="Area3D" parent="ZonasCamara" unique_id=1802851572 instance=ExtResource("10_1lvr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8, 0.7, 7)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("11_ct4bg")
+tamano = Vector3(1.6, 1.4, 2.6)
+distancia = 1.0
+altura = 1.2
+desplazamiento_lateral = 0.2
+fov = 68.0
+prioridad = 2
+
+[node name="Jugador" type="CharacterBody3D" parent="." unique_id=507175565 node_paths=PackedStringArray("camara") instance=ExtResource("12_xq4u7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.02, -1.6)
+collision_layer = 2
+floor_snap_length = 0.2
+script = ExtResource("13_24eya")
+movimiento_presente = ExtResource("14_w2be5")
+movimiento_pasado = ExtResource("15_qmgag")
+camara = NodePath("CamaraJugador")
+orientacion_inicial = 180.0
+
+[node name="PuntosCaptura" type="Node3D" parent="." unique_id=1365400753]
+
+[node name="Captura_1_celda" type="Marker3D" parent="PuntosCaptura" unique_id=1343072053 groups=["punto_captura"]]
+transform = Transform3D(-1, 6.986364e-09, -8.714318e-08, 0, 0.99680173, 0.07991469, 8.742278e-08, 0.07991469, -0.99680173, 5, 0, -1.3)
+
+[node name="Captura_2_pasillo" type="Marker3D" parent="PuntosCaptura" unique_id=288409954 groups=["punto_captura"]]
+transform = Transform3D(-4.371139e-08, 0.059964005, -0.99820054, 0, 0.99820054, 0.059964005, 1, 2.62111e-09, -4.363273e-08, 6.5, 0, 0.8)
+
+[node name="Captura_3_rejas" type="Marker3D" parent="PuntosCaptura" unique_id=37172834 groups=["punto_captura"]]
+transform = Transform3D(0.62161, -0.031324722, 0.78270036, 0, 0.9992001, 0.039989334, -0.7833269, -0.024857769, 0.62111276, 9, 0, 0.75)
+
+[node name="Captura_4_recodo" type="Marker3D" parent="PuntosCaptura" unique_id=231896924 groups=["punto_captura"]]
+transform = Transform3D(-1, 4.369318e-09, -8.731352e-08, 0, 0.99875027, 0.04997917, 8.742278e-08, 0.04997917, -0.99875027, 14.8, 0, 1)
+
+[node name="Captura_5_agachado" type="Marker3D" parent="PuntosCaptura" unique_id=789508380 groups=["punto_captura"]]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 14.8, 0, 6.6)
+metadata/agachado = true
+
+[node name="RutaBenchmark" type="Path3D" parent="." unique_id=42997432 groups=["ruta_benchmark"]]
+curve = SubResource("Curve3D_2quwu")
